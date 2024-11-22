@@ -13,6 +13,9 @@ const config = {
   password: 'b4y3r83}9',
   server: 'bayer-mssql.database.windows.net',
   database: 'mySampleDatabase',
+  authentication: {
+    type: 'default'
+  },
   options: {
     encrypt: true,
     trustServerCertificate: true,
