@@ -2,7 +2,7 @@
   "name": "file-upload-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://bayereast-b4gge4fkfxexa8d9.centralus-01.azurewebsites.net",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
