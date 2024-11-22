@@ -24,19 +24,16 @@ jobs:
           npm install
           CI=false npm run build
           
-      - name: Prepare deployment package
+      - name: Zip artifact for deployment
         run: |
           cd Project
-          cp -r server/* build/
-          cp package.json build/
-          cd build
-          zip release.zip ./* -r
+          zip release.zip ./build/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: Project/build/release.zip
+          path: Project/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,7 +50,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
