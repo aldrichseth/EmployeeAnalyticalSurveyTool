@@ -8,9 +8,15 @@ const multer = require('multer');
 const { fetchData, fetchUploadedData, fetchAllData} = require('./database');
 const { uploadFile, upload } = require('./upload');
 
-//Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, '../build')));
+// Handle production environment
+const BUILD_PATH = process.env.NODE_ENV === 'production' 
+  ? path.join(__dirname, './build')
+  : path.join(__dirname, '../build');
 
+// Serve static files from the 'build' directory
+app.use(express.static(BUILD_PATH));
+
+// API Routes
 app.get('/api/data', async (req, res) => {
   try {
     const data = await fetchData();
@@ -61,12 +67,15 @@ app.post('/upload', (req, res) => {
   });
 });
 
+// Catch all route - must be last
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(path.join(BUILD_PATH, 'index.html'));
 });
 
 //Start the server and listen on the specified port
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`Build path: ${BUILD_PATH}`);
 });
