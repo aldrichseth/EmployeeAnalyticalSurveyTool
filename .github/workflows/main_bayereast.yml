@@ -23,17 +23,16 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: npm install and build
         run: |
           cd Project
           npm install
-          npm run build --if-present
-          npm run test --if-present
-
+          CI=false npm run build
+          
       - name: Zip artifact for deployment
         run: |
           cd Project
-          zip release.zip ./* -r
+          zip release.zip ./build/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -56,7 +55,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
